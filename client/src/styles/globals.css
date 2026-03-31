@@ -413,7 +413,7 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  padding-right: 50px;
+  padding-right: 80px;
 }
 
 .card-img {

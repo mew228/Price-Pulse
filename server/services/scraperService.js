@@ -64,8 +64,13 @@ const scrapeAmazon = async (url) => {
     '.a-price.a-text-price.a-size-medium.apexPriceToPay .a-offscreen',
     '.a-price[data-a-color="price"] .a-offscreen',
     '#corePrice_feature_div .a-price .a-offscreen',
+    '#corePriceDisplay_desktop_feature_div .a-price-whole',
+    '#corePriceDisplay_desktop_feature_div .a-price .a-offscreen',
     '.a-price .a-offscreen',
     '#apex_desktop .a-price .a-offscreen',
+    'span.a-price-whole',
+    '.a-price-whole',
+    '.a-color-price',
   ];
 
   let currentPrice = null;
