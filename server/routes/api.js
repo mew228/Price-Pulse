@@ -9,7 +9,9 @@ const {
   refreshTracker,
   getStats,
 } = require('../controllers/trackerController');
+const { runPriceCheck } = require('../services/cronService');
 const { addTrackerLimiter, refreshLimiter } = require('../middleware/rateLimiter');
+
 
 const router = express.Router();
 
@@ -80,4 +82,21 @@ router.delete('/trackers/:id', [validateId], deleteTracker);
 
 router.post('/trackers/:id/refresh', refreshLimiter, [validateId], refreshTracker);
 
+router.post('/cron/check', async (req, res) => {
+  // Simple check for Vercel Cron header or manual trigger
+  const authHeader = req.headers.authorization;
+  if (process.env.NODE_ENV === 'production' && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    console.warn('[Cron] Unauthorized cron attempt');
+    return res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+
+  try {
+    const result = await runPriceCheck();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = router;
+

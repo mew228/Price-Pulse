@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "name": "pricepulse-mew228",
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS"
+      }
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/client/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/$1",
+      "continue": true
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/index.html"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/check",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
