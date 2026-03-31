@@ -20,7 +20,6 @@ const fetchPage = async (url, retries = 3) => {
 
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      await sleep(Math.random() * 1500 + 500);
       const response = await axios.get(targetUrl, {
         headers: {
           'User-Agent': getRandomUserAgent(),
@@ -170,7 +169,7 @@ const scrapeMyntra = async (url) => {
 
 const detectPlatform = (url) => {
   const lower = url.toLowerCase();
-  if (lower.includes('amazon.in') || lower.includes('amazon.com')) return 'amazon';
+  if (lower.includes('amazon.') || lower.includes('amzn.')) return 'amazon';
   if (lower.includes('flipkart.com')) return 'flipkart';
   if (lower.includes('myntra.com')) return 'myntra';
   return 'unknown';
